@@ -15,12 +15,6 @@ Execl操作：openpyxl
 虚拟数据 ：Faker
 邮件：Flask-Mail
 
-coding码市地址
-https://git.dev.tencent.com/mgjerome/interface-master.git
-
-前端框架：
-vue2.0+elementUI
-https://git.dev.tencent.com/mgjerome/interface.git
 
 #####运行项目#####
 后端运行：
