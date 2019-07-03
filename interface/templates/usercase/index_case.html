@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>接口测试平台-用例查询</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ url_for('static', filename='startbootstrap/vendor/bootstrap/css/bootstrap.min.css') }}"
+          rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="{{ url_for('static', filename='startbootstrap/vendor/metisMenu/metisMenu.min.css') }}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='startbootstrap/dist/css/sb-admin-2.css') }}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{{ url_for('static', filename='startbootstrap/vendor/font-awesome/css/font-awesome.min.css') }}"
+          rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <!-- /input-group -->
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="fa fa-edit fa-fw"></i> Forms<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="flot.html">Flot Charts</a>
+                            </li>
+                            <li>
+                                <a href="morris.html">Morris.js Charts</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+
+
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Tables</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        用例查询
+                    </div>
+                    {% for message in get_flashed_messages(with_categories=True) %}
+                        <div class="alert alert-{{ message[0] }}" role="alert">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {{ message[1] }}
+                        </div>
+                    {% endfor %}
+                    <!-- /.panel-heading -->
+                    <form action="" method="post" class="form-horizontal" role="form">
+                        <div class="panel-body">
+                            {# 设置scrf_token #}
+                            {{ form.csrf_token() }}
+                            <label>
+                                {{ form.case_name }}
+                            </label>
+
+                            <label>
+                                {{ form.submit }}
+                            </label>
+                            <div class="panel-body">
+                                <a href="{{ url_for('case.add') }}" class="btn btn-primary">新增</a>
+                            </div>
+                            <table width="100%" class="table table-striped table-bordered table-hover"
+                                   id="dataTables-example">
+                                <thead>
+                                <tr>
+                                    <th>用例名称</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for case in caseList %}
+                                    {#                                {% if loop.index %2 ==0 %}#}
+                                    <tr {% if loop.index %2 ==0 %} class="odd gradeX" {% else %}
+                                                                   class="danger" {% endif %}>
+                                        <td>{{ case.case_name }}</td>
+                                        <td>
+
+                                            <a type="button" class="btn btn-success btn-circle" id="start"
+                                               href="{{ url_for('case.start', case_id=case.uc_id) }}">
+                                                执行
+                                            </a>
+
+                                            <a class="btn btn-primary btn-circle"
+                                               href="{{ url_for('case.updateProject', case_id=case.uc_id) }}">
+                                                <i
+                                                        class="fa fa-list"></i>
+                                            </a>
+                                            <a class="btn btn-warning btn-circle"
+                                               href="{{ url_for('case.delete', case_id=case.uc_id) }}"><i
+                                                    class="fa fa-times"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <!-- /.table-responsive -->
+                        </div>
+
+
+                        <!-- /.panel-body -->
+                        <div class="paginate_button previous disabled" aria-controls="dataTables-example"
+                             tabindex="0" id="dataTables-example_previous">
+                            <label>总条数: {{ count }}</label><label>当前页数: {{ pagination.page }}/{{ pagination.pages }}</label>
+                        </div>
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                            <ul class="pagination">
+                                <li class="paginate_button previous " aria-controls="dataTables-example"
+                                    tabindex="0" id="dataTables-example_previous">{% if pagination.has_prev %}
+                                    <a href="{{ url_for('case.index', page = pagination.prev_num) }}">上一页</a>
+                                {% endif %}
+                                </li>
+                                <li class="paginate_button next" aria-controls="dataTables-example" tabindex="0"
+                                    id="dataTables-example_next"> {% if pagination.has_next %}
+                                    <a href="{{ url_for('case.index', page = pagination.next_num) }}">下一页 </a>
+                                {% endif %}
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        </form>
+
+        <!-- /.col-lg-6 -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /#page-wrapper -->
+
+
+</div>
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="{{ url_for('static', filename='startbootstrap/vendor/jquery/jquery.min.js') }}"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{{ url_for('static', filename='startbootstrap/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+<!-- Metis Menu Plugin JavaScript -->
+<script src="{{ url_for('static', filename='startbootstrap/vendor/metisMenu/metisMenu.min.js') }}"></script>
+<!-- Custom Theme JavaScript -->
+<script src="{{ url_for('static', filename='startbootstrap/dist/js/sb-admin-2.js') }}"></script>
+
+
+</body>
+
+</html>

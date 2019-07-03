@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+{#    <meta name="csrf-token" content="{{ csrf_token() }}">#}
+
+    <title>接口测试平台-接口新增</title>
+
+
+    <!-- MetisMenu CSS -->
+    <link href="{{ url_for('static', filename='startbootstrap/vendor/metisMenu/metisMenu.min.css') }}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='startbootstrap/dist/css/sb-admin-2.css') }}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{{ url_for('static', filename='startbootstrap/vendor/font-awesome/css/font-awesome.min.css') }}"
+          rel="stylesheet" type="text/css">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}"
+          rel="stylesheet" ,type="text/css">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+{#    <script type="text/javascript">#}
+{#        var csrftoken = "{{ csrf_token() }}"#}
+{#    </script>#}
+
+</head>
+
+<body>
+
+<div id="wrapper">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <!-- /.navbar-header -->
+
+        <ul class="nav navbar-top-links navbar-right">
+
+            <!-- /.dropdown -->
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                    </li>
+                    <li class="divider"></li>
+{#                    <li><a href="{{ url_for('auth.logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>#}
+                    </li>
+                </ul>
+                <!-- /.dropdown-user -->
+            </li>
+            <!-- /.dropdown -->
+        </ul>
+        <!-- /.navbar-top-links -->
+
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <!-- /input-group -->
+                    </li>
+
+                    <li>
+                        <a href="#"><i class="fa fa-edit fa-fw"></i> Forms<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="flot.html">Flot Charts</a>
+                            </li>
+                            <li>
+                                <a href="morris.html">Morris.js Charts</a>
+                            </li>
+                        </ul>
+                        <!-- /.nav-second-level -->
+                    </li>
+
+
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header"></h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        接口新增
+                    </div>
+                    {% for message in get_flashed_messages(with_categories=True) %}
+                        <div class="alert alert-{{ message[0] }}" role="alert">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {{ message[1] }}
+                        </div>
+                    {% endfor %}
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+
+                                <label>接口名称</label>
+                                <div class="form-group">
+                                    <input id="env_name" name="env_name" placeholder="输入接口名称" type="text" value="">
+                                </div>
+                                <label>接口描述</label>
+                                <div class="form-group">
+                                    <textarea id="env_desc" name="env_desc" placeholder="输入接口描述"></textarea>
+                                </div>
+                                <label>项目名称</label>
+                                <div class="form-group">
+
+                                    <select id="project_id" name="project_id">
+                                    </select>
+
+                                </div>
+                                <label>模块名称</label>
+                                <div class="form-group">
+
+                                    <select id="modules_id" name="modules_id">
+                                    </select>
+
+                                </div>
+                                <label>传输协议</label>
+                                <div class="form-group">
+                                    <select id="env_transmission" name="env_transmission">
+                                        <option value="0">HTTP</option>
+                                        <option value="1">HTTPS</option>
+                                    </select>
+                                </div>
+                                <label>请求协议</label>
+                                <div class="form-group">
+                                    <select id="env_agreement" name="env_agreement">
+                                        <option value="0">GET</option>
+                                        <option value="1">POST</option>
+                                    </select>
+                                </div>
+                                <label>ip</label>
+                                <div class="form-group">
+
+                                    <input id="env_ip" name="env_ip" placeholder="输入接口ip" type="text" value="">
+                                </div>
+                                <label>端口号</label>
+                                <div class="form-group">
+
+                                    <input id="env_port" name="env_port" placeholder="输入接口端口号" type="text" value="">
+                                </div>
+                                <label>路径</label>
+                                <div class="form-group">
+
+                                    <input id="env_path" name="env_path" placeholder="输入接口路径" type="text" value="">
+                                </div>
+                                <label>headers</label>
+                                <div class="form-group">
+
+                                    <input id="env_headers" name="env_headers" placeholder="输入接口headers" type="text"
+                                           value="">
+                                </div>
+                                <label>校验规则</label>
+                                <div class="form-group">
+                                    <input id="env_verification_code" name="env_verification_code" placeholder="" type="text"
+                                           value="">
+                                    <select id="env_agreement_relation" name="env_agreement_relation">
+                                        <option value="1">等于</option>
+                                        <option value="2">不等于</option>
+                                        <option value="3">包含</option>
+                                        <option value="4">不包含</option>
+                                        <option value="5">大于</option>
+                                        <option value="6">大于等于</option>
+                                        <option value="7">小于</option>
+                                        <option value="8">小于等于</option>
+                                        <option value="9">在列表中</option>
+                                        <option value="10">不在列表中</option>
+                                    </select>
+                                    <input id="env_verification_value" name="env_verification_value" placeholder="校验规则" type="text"
+                                           value="">
+                                </div>
+
+                                <div class="form-group">
+                                    <button id="btn_env_transfer" class="btn btn-default">调用接口</button>
+                                </div>
+                                <div class="form-group" id="div_transfer">
+                                    <ul id="transfer_ul" name="transfer_ul">
+                                    </ul>
+                                </div>
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        参数模块
+                                        <button id="btn_env_addParm" class="btn btn-default">新增接口参数</button>
+                                    </div>
+                                    <div class="panel-body">
+                                        <ul id="parm_ul">
+
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <select id="env_status" name="env_status">
+                                        <option value="1">启用</option>
+                                        <option value="2">禁用</option>
+                                    </select><label for="env_status">状态</label>
+                                </div>
+                                <div class="form-group">
+                                    <select id="env_complete" name="env_complete">
+                                        <option value="1">完成</option>
+                                        <option value="2">未完成</option>
+                                    </select>
+                                    <label for="env_complete">是否开发完成</label>
+                                </div>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-primary" id="btnSubmit">提交</button>
+                                </div>
+                            </div>
+                            <!-- /.col-lg-6 (nested) -->
+                        </div>
+                        <!-- /.row (nested) -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel -->
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="{{ url_for('static', filename='startbootstrap/vendor/jquery/jquery.min.js') }}"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{{ url_for('static', filename='startbootstrap/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+<!-- Metis Menu Plugin JavaScript -->
+<script src="{{ url_for('static', filename='startbootstrap/vendor/metisMenu/metisMenu.min.js') }}"></script>
+<!-- Custom Theme JavaScript -->
+<script src="{{ url_for('static', filename='startbootstrap/dist/js/sb-admin-2.js') }}"></script>
+<script src="{{ url_for('static', filename='js/environment.js') }}"></script>
+<script src="{{ url_for('static', filename='js/csrf.js') }}"></script>
+
+
+</body>
+
+</html>
